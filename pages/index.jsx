@@ -1,44 +1,52 @@
 import { useState, useEffect } from 'react';
 import produce from 'immer';
 
-const Notes = props => props.data.map(note => <div>{note.text}</div>);
+const DirtyItems = props => props.data.map(item => <div className="items">{item.itemName} {item.itemAmount} <button onClick={() => handleClickItemAmounts()}>+</button></div>);
 
 export default () => {
-  const initialData = [{ text: 'Loading Notes ... ' }];
-  const [data, setData] = useState(initialData);
+  const initialData = [{ name: 'Loading... ', amount: 0 }];
+  const [data, setDirtyItem] = useState(initialData);
 
-  const handleClick = () => {
-    const text = document.querySelector('#noteinput').value.trim();
-    if (text) {
+  const handleClickItems = () => {
+    const itemName = document.querySelector('#itemName').value.trim();
+    const itemAmount = document.querySelector('#itemAmount').value.trim();
+
+    if (itemName && itemAmount) {
       const nextState = produce(data, draftState => {
-        draftState.push({ text });
+        draftState.push({ itemName, itemAmount });
       });
-      document.querySelector('#noteinput').value = '';
+      document.querySelector('#itemName').value = '';
+      document.querySelector('#itemAmount').value = '';
 
       if (typeof window !== 'undefined') {
         localStorage.setItem('data', JSON.stringify(nextState));
       }
 
-      setData(nextState);
+      setDirtyItem(nextState);
     }
   };
 
+  const handleClickItemAmounts = () => {
+    
+  }
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const getData = localStorage.getItem('data');
-
-      if (getData !== '' && getData !== null) {
-        return setData(JSON.parse(getData));
+      const getDirtyItems = localStorage.getItem('data');
+      if (getDirtyItems !== '' && getDirtyItems !== null) {
+        return setDirtyItem(JSON.parse(getDirtyItems));
       }
-      return setData([]);
+      return setDirtyItem([]);
     }
   }, 0);
 
   return (
     <>
-      <input id="noteinput" style={{ width: '80%' }} type="text" placeholder="Enter a new note" />
-      <button onClick={() => handleClick()}>Add note</button>
-      <Notes data={data} />
+      <input id="itemName" style={{ width: '20%' }} type="text" placeholder="Item name" />
+      <input id="itemAmount" style={{ width: '20%' }} type="text" placeholder="Item Amount" />
+      <button onClick={() => handleClickItems()}>Add Item</button>
+
+      <DirtyItems data={data} />
     </>
   );
 };

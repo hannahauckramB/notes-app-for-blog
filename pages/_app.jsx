@@ -19,7 +19,7 @@ export default class MyApp extends App {
     return (
       <Container>
         <Head>
-          <title>Page</title>
+          <title>Dirty Tracker</title>
         </Head>
         <Component {...pageProps} />
       </Container>

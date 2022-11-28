@@ -1,11 +1,22 @@
 /*! modern-normalize | MIT License | https://github.com/sindresorhus/modern-normalize */
 
+.items {
+	background-color: darkgreen;
+	margin: 10px 0;
+	padding: 10px;
+	width: 40%;
+	font-family: 'Times New Roman', Times, serif;
+	font-size: large;
+}
+
+.items button {
+	float: right;
+}
+
+
+
 /* Document
    ========================================================================== */
-
-/**
- * Use a better box model (opinionated).
- */
 
  html {
 	box-sizing: border-box;
@@ -16,10 +27,6 @@
 *::after {
 	box-sizing: inherit;
 }
-
-/**
- * Use a more readable tab size (opinionated).
- */
 
 :root {
 	-moz-tab-size: 4;
